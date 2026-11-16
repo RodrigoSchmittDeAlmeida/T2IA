@@ -248,6 +248,10 @@ class GeneticAlgorithm:
             "best_weights": list(self.best_weights),
             "converged": converged,
             "mode": effective_mode,
+            # Fitness de todos os indivíduos da geração (ordem decrescente),
+            # usado pelo front-end para visualizar a população.
+            "population_fitness": [round(item[0], 2) for item in evaluated],
+            "stagnation": self.stagnation_counter,
         }
         self.history.append(metrics)
         return metrics
