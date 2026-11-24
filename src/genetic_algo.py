@@ -21,15 +21,15 @@ class GeneticAlgorithm:
 
     def __init__(
         self,
-        population_size=60,
+        population_size=80,
         hidden_size=18,
-        mutation_rate=0.08,
-        mutation_std=0.25,
+        mutation_rate=0.04,
+        mutation_std=0.18,
         elitism_count=4,
         tournament_size=3,
-        max_generations=100,
-        stagnation_limit=25,
-        blx_alpha=0.5,
+        max_generations=120,
+        stagnation_limit=30,
+        blx_alpha=0.25,
         seed=None,
     ):
         self.population_size = population_size
@@ -56,6 +56,7 @@ class GeneticAlgorithm:
         self.best_fitness = float("-inf")
         self.best_weights = list(self.population[0])
         self.stagnation_counter = 0
+        self._last_mode = None
         self.history = []
 
     def _play_single_game(self, net_player, minimax_mode):
@@ -187,6 +188,13 @@ class GeneticAlgorithm:
         else:
             effective_mode = mode
 
+        # Ao trocar de modo no currículo (ex.: Médio -> Difícil), reinicia a
+        # referência de melhor fitness e estagnação para avaliar o novo modo de forma justa.
+        if self._last_mode is not None and effective_mode != self._last_mode:
+            self.best_fitness = float("-inf")
+            self.stagnation_counter = 0
+        self._last_mode = effective_mode
+
         evaluated = []
         total_wins = 0
         total_draws = 0
@@ -216,9 +224,11 @@ class GeneticAlgorithm:
         else:
             self.stagnation_counter += 1
 
+        # No modo currículo, não interrompe por estagnação durante a fase inicial (Médio)
+        in_warmup = mode == "curriculo" and self.generation <= max(1, self.max_generations // 2)
         converged = (
             self.generation >= self.max_generations
-            or self.stagnation_counter >= self.stagnation_limit
+            or (not in_warmup and self.stagnation_counter >= self.stagnation_limit)
         )
 
         # Elitismo: preserva os melhores indivíduos intactos

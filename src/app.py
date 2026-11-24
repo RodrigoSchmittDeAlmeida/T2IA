@@ -751,14 +751,14 @@ class TrainingTab(ttk.Frame):
 
         self.vars = {}
         fields = [
-            ("population_size", "População (N)", 60, 4, 1000, 1),
-            ("max_generations", "Máx. gerações", 100, 1, 10000, 1),
-            ("stagnation_limit", "Parada por estagnação", 25, 1, 10000, 1),
+            ("population_size", "População (N)", 80, 4, 1000, 1),
+            ("max_generations", "Máx. gerações", 120, 1, 10000, 1),
+            ("stagnation_limit", "Parada por estagnação", 30, 1, 10000, 1),
             ("elitism_count", "Elitismo", 4, 0, 100, 1),
             ("tournament_size", "Tamanho do torneio", 3, 2, 50, 1),
-            ("mutation_rate", "Taxa de mutação", 0.08, 0.0, 1.0, 0.01),
-            ("mutation_std", "Desvio da mutação", 0.25, 0.01, 5.0, 0.05),
-            ("blx_alpha", "Alpha do BLX-α", 0.5, 0.0, 2.0, 0.05),
+            ("mutation_rate", "Taxa de mutação", 0.04, 0.0, 1.0, 0.01),
+            ("mutation_std", "Desvio da mutação", 0.18, 0.01, 5.0, 0.05),
+            ("blx_alpha", "Alpha do BLX-α", 0.25, 0.0, 2.0, 0.05),
             ("hidden_size", "Neurônios ocultos", 18, 1, 200, 1),
         ]
         self.param_widgets = []
